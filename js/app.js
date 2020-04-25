@@ -1,12 +1,19 @@
 document.addEventListener('DOMContentLoaded',()=>{
+    const startBtn = document.querySelector('button')
     const grid = document.querySelector('.grid')
     let squares = Array.from(grid.querySelectorAll('div'))
     const displaySquares = document.querySelectorAll('.previous-grid div')
+    const scoreDisplay = document.querySelector('.score-display')
+    const lineDisplay = document.querySelector('.line-display')
+
+
     const width = 10
     const height = 20
     let currentPosition = 4
     let currentRotation = 0
-
+    let timerId
+    let score = 0
+    let lines = 0
   //add eventListener for keyCodes
     function control(e){
         if(e.keyCode === 39){
@@ -84,7 +91,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         undraw()
         currentPosition = currentPosition +=width
         draw()
-        //freeze()
+        freeze()
     }
   //move left and prevent collisons with shapes moving left
     function moveRight(){
@@ -151,8 +158,29 @@ document.addEventListener('DOMContentLoaded',()=>{
             currentPosition = 4
             draw()
             displayShape()
+            gameOver()
         }
      }
+
+     //start game
+      startBtn.addEventListener('click',()=>{
+          if(timerId){
+              clearInterval(timerId)
+              timerId = null
+          }else{
+              draw()
+              timerId = setInterval(moveDown,1000)
+              nextRandom = Math.floor(Math.random()* theTetrominoes.length)
+              displayShape()
+          }
+      })
+     //game over
+      function gameOver(){
+          if(current.some(index=> squares[currentPosition+index].classList.contains('block2'))){
+                scoreDisplay.innerHTML = 'End'              
+                clearInterval(timerId)
+          }
+      }
 
 
 })
