@@ -1,9 +1,26 @@
 document.addEventListener('DOMContentLoaded',()=>{
-    const grid = document.querySelectorAll('.grid')
-    const squares = Array.from(document.querySelectorAll('div'))
+    const grid = document.querySelector('.grid')
+    let squares = Array.from(grid.querySelectorAll('div'))
     const width = 10
     const height = 20
-    const currentPosition = 4
+    let currentPosition = 4
+    let currentRotation = 0
+
+  //add eventListener for keyCodes
+    function control(e){
+        if(e.keyCode === 39){
+            moveRight()
+        }else if(e.keyCode === 38){
+            rotate()
+        }else if(e.keyCode === 37){
+            moveLeft()
+        }else if(e.keyCode === 40){
+            moveDown()
+        }
+
+    }
+  //Event listener for keyUp for control func
+    document.addEventListener('keyup',control)
 
   //The Tetrominos
   const lTetromino = [
@@ -42,31 +59,31 @@ document.addEventListener('DOMContentLoaded',()=>{
   ]
 
   //Tetrominos
-   const theTetrominos=[iTetromino,lTetromino,oTetromino,tTetromino,zTetromino]
+    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
 
   //Randmonly select tetrominos rotation
-    let random = Math.floor(Math.random() * theTetrominos.length)
-    let currentRotation = 0
-    let current = theTetrominos[random][currentRotation]
+    let random = Math.floor(Math.random() * theTetrominoes.length)
+    let current = theTetrominoes[random][currentRotation]
 
   //draw the tetromino shape
     function draw(){
-        current.forEach(index => (
+        console.log('draw')
+        current.forEach(index => {
             squares[currentPosition + index].classList.add('block')
-        ))
+        })
     }
   //undraw the tetromino shape
     function undraw(){
-        current.forEach(index => (
+        current.forEach(index => {
             squares[currentPosition + index].classList.remove('block')
-        ))
+        })
     }
   //move shape down
     function moveDown(){
         undraw()
         currentPosition = currentPosition +=width
         draw()
-        freeze()
+        //freeze()
     }
   //move left and prevent collisons with shapes moving left
     function moveRight(){
@@ -90,16 +107,17 @@ document.addEventListener('DOMContentLoaded',()=>{
     }
 
   //rotate tetrimino
-    function rotation(){
+    function rotate(){
         undraw()
         currentRotation++
         if(currentRotation === current.length){
             currentRotation = 0
         }
-        current = theTetrominos[random][currentRotation]
+        current = theTetrominoes[random][currentRotation]
         draw()
     }
-     
+    console.log('draw')
+    draw()
 
 
 
