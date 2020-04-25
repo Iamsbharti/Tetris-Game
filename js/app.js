@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded',()=>{
     const grid = document.querySelector('.grid')
     let squares = Array.from(grid.querySelectorAll('div'))
+    const displaySquares = document.querySelectorAll('.previous-grid div')
     const width = 10
     const height = 20
     let currentPosition = 4
@@ -117,9 +118,41 @@ document.addEventListener('DOMContentLoaded',()=>{
         draw()
     }
     console.log('draw')
-    draw()
+    //draw()
+    //show privious tetriminos in displaysquare
+     const displayWidth = 4
+     const displayIndex = 0
+     let nextRandom = 0
+     const smallTetriminoes=[
+         [1,displayWidth+1,displayWidth*2+1,2], /*lTetriminoes*/
+         [0,displayWidth,displayWidth+1,displayWidth*2+1] , /*zTetriminoes*/
+         [1,displayWidth,displayWidth+1,displayWidth*2], /*tTetriminoes*/
+         [0,1,displayWidth,displayWidth+1], /*lTetriminoes*/
+         [1,displayWidth+1,displayWidth*2+1,displayWidth*3+1] /*iTetriminoes*/      
+     ]
+     function displayShape(){
+        displaySquares.forEach(square=>{
+            square.classList.remove('block')
+        })
+        smallTetriminoes[nextRandom].forEach(index=>{
+            displaySquares[displayIndex + index].classList.add('block')
+        })
+     }
+     //displayShape()
+     //freeze the shape
+     function freeze(){
+        if(current.some(index=> squares[currentPosition+index+width].classList.contains('block3')
+            ||squares[currentPosition+index+width].classList.contains('block2'))){
+                current.forEach(index=> squares[index+currentPosition].classList.add('block2'))
 
-
+            random = nextRandom
+            nextRandom = Math.floor(Math.random()*theTetrominoes.length)
+            current = theTetrominoes[random][currentRotation]
+            currentPosition = 4
+            draw()
+            displayShape()
+        }
+     }
 
 
 })
