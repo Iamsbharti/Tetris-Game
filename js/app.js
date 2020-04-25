@@ -61,7 +61,33 @@ document.addEventListener('DOMContentLoaded',()=>{
             squares[currentPosition + index].classList.remove('block')
         ))
     }
-
+  //move shape down
+    function moveDown(){
+        undraw()
+        currentPosition = currentPosition +=width
+        draw()
+        freeze()
+    }
+  //move left and prevent collisons with shapes moving left
+    function moveRight(){
+        undraw()
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width -1)
+        if(!isAtRightEdge) currentPosition +=1
+        //if any of the tetrimino element is in block2 ,we move to left
+        if(current.some(index=> squares[currentPosition + index].classList.contains('block2'))){
+            currentPosition -=1
+        }
+        draw()
+    }
+    function moveLeft(){
+        undraw()
+        const isAtLeftEdge = current.some(index=> (currentPosition + index) % width === 0)
+        if(!isAtLeftEdge) currentPosition -=1
+        if(current.some(index=> squares[currentPosition + index].classList.contains('block2'))){
+            currentPosition +=1
+        }
+        draw()
+    }
 
 
 
