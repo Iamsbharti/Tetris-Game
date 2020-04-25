@@ -1,7 +1,9 @@
 document.addEventListener('DOMContentLoaded',()=>{
     const grid = document.querySelectorAll('.grid')
+    const squares = Array.from(document.querySelectorAll('div'))
     const width = 10
     const height = 20
+    const currentPosition = 4
 
   //The Tetrominos
   const lTetromino = [
@@ -47,6 +49,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     let currentRotation = 0
     let current = theTetrominos[random][currentRotation]
 
+  //draw the tetromino shape
+    function draw(){
+        current.forEach(index => (
+            squares[currentPosition + index].classList.add('block')
+        ))
+    }
+  //undraw the tetromino shape
+    function undraw(){
+        current.forEach(index => (
+            squares[currentPosition + index].classList.remove('block')
+        ))
+    }
 
 
 
