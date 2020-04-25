@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     let timerId
     let score = 0
     let lines = 0
+    let currentIndex = 0
   //add eventListener for keyCodes
     function control(e){
         if(e.keyCode === 39){
@@ -159,6 +160,7 @@ document.addEventListener('DOMContentLoaded',()=>{
             draw()
             displayShape()
             gameOver()
+            addScore()
         }
      }
 
@@ -181,6 +183,28 @@ document.addEventListener('DOMContentLoaded',()=>{
                 clearInterval(timerId)
           }
       }
+     //add score
+      function addScore(){
+          for(currentIndex = 0;currentIndex < 199; currentIndex +=width ){
+              const row=[currentIndex,currentIndex+1,currentIndex+2,currentIndex+3,currentIndex+4,currentIndex+5,currentIndex+6,currentIndex+7,
+            currentIndex+8,currentIndex+9]
+              
+            if(row.every(index=> squares[index].classList.contains('block2'))){
+                score +=10
+                lines +=1
+                scoreDisplay.innerHTML = score
+                lineDisplay.innerHTML = lines
 
+                row.forEach(index=>{
+                    squares[index].classList.remove('block2') || squares[index].classList.remove('block')
+                })
+                //splice array
+                const squaresRemoved= squares.splice(currentIndex,width)
+                squares = squaresRemoved.concat(squares)
+                squares.forEach(cell=> grid.appendChild(cell))
+            }
+                
+          }
+      }
 
 })
